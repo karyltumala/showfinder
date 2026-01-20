@@ -6,31 +6,134 @@
   <title>ShowFinder</title>
   <link rel="stylesheet" href="style.css" />
 </head>
+
 <body>
+  <!-- Animated background blobs -->
+  <div class="bg-blobs" aria-hidden="true">
+    <div class="blob b1"></div>
+    <div class="blob b2"></div>
+    <div class="blob b3"></div>
+  </div>
+
+  <!-- Toast -->
+  <div id="toast" class="toast hidden" role="status" aria-live="polite"></div>
+
+  <!-- HEADER -->
   <header class="header">
-    <h1>🎬 ShowFinder</h1>
-    <p>Search TV shows & movie-like content using the TVMaze API (no API key).</p>
+    <div class="brand">
+      <div class="logo">🎬</div>
+      <div>
+        <h1>ShowFinder</h1>
+        <p>Trending • Search • Filter • Favorites</p>
+      </div>
+    </div>
+
+    <div class="header-actions">
+      <button id="themeToggle" class="icon-btn" aria-label="Toggle theme" title="Toggle theme">🌙</button>
+    </div>
   </header>
 
+  <!-- TABS -->
+  <nav class="tabs container" aria-label="Main tabs">
+    <button class="tab active" data-tab="results">Results</button>
+    <button class="tab" data-tab="favorites">Favorites</button>
+    <button class="tab" data-tab="about">About</button>
+  </nav>
+
+  <!-- MAIN -->
   <main class="container">
-    <section class="search">
-      <input id="query" type="text" placeholder="Search a show (e.g., Batman, Naruto, Money Heist)" />
-      <button id="searchBtn">Search</button>
+
+    <!-- RESULTS TAB -->
+    <section id="tab-results" class="tab-panel">
+      <!-- Search -->
+      <section class="search">
+        <input id="query" type="text" placeholder="Search a show (e.g., Batman, Naruto, Money Heist)" />
+        <button id="searchBtn">Search</button>
+      </section>
+
+      <!-- Controls -->
+      <section class="controls">
+        <select id="genreFilter">
+          <option value="">All Genres</option>
+        </select>
+
+        <select id="sortBy">
+          <option value="relevance">Sort: Relevance</option>
+          <option value="rating_desc">Sort: Rating (High → Low)</option>
+          <option value="rating_asc">Sort: Rating (Low → High)</option>
+          <option value="year_desc">Sort: Year (New → Old)</option>
+          <option value="year_asc">Sort: Year (Old → New)</option>
+          <option value="name_asc">Sort: Name (A → Z)</option>
+        </select>
+
+        <label class="minRatingWrap">
+          Min Rating:
+          <input id="minRating" type="range" min="0" max="10" step="0.5" value="0" />
+          <span id="minRatingValue">0</span>
+        </label>
+
+        <button id="refreshTrendingBtn" class="secondary" title="Reload trending shows">
+          🔥 Trending
+        </button>
+      </section>
+
+      <p id="status" class="status"></p>
+
+      <section id="results" class="grid"></section>
+
+      <div class="loadMoreWrap">
+        <button id="loadMoreBtn" class="secondary hidden">Load more</button>
+      </div>
     </section>
 
-    <p id="status" class="status"></p>
+    <!-- FAVORITES TAB -->
+    <section id="tab-favorites" class="tab-panel hidden">
+      <div class="panel-head">
+        <h2>⭐ Favorites</h2>
+        <p>Your saved shows are stored in your browser (localStorage).</p>
+      </div>
 
-    <section id="results" class="grid"></section>
+      <p id="favStatus" class="status"></p>
+      <section id="favoritesGrid" class="grid"></section>
+    </section>
 
-    <!-- Modal for details -->
+    <!-- ABOUT TAB -->
+    <section id="tab-about" class="tab-panel hidden">
+      <div class="panel-head">
+        <h2>About</h2>
+        <p>
+          ShowFinder is a simple web application that fetches and displays JSON data from the
+          <b>TVMaze REST API</b>. It supports search, filters, sorting, favorites, and responsive layout.
+        </p>
+      </div>
+
+      <div class="about-cards">
+        <article class="about-card">
+          <h3>✅ REST API + JSON</h3>
+          <p>Uses fetch() to get JSON from TVMaze and renders results dynamically.</p>
+        </article>
+        <article class="about-card">
+          <h3>✅ Interactivity</h3>
+          <p>Search, filters, sorting, favorites, and details modal.</p>
+        </article>
+        <article class="about-card">
+          <h3>✅ Responsive</h3>
+          <p>Works on desktop and mobile using flexible layout and grid.</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- Modal -->
     <div id="modal" class="modal hidden">
       <div class="modal-content">
         <button id="closeModal" class="close">✕</button>
         <div id="details"></div>
       </div>
     </div>
+
   </main>
 
   <script src="script.js"></script>
+
 </body>
 </html>
